@@ -2,11 +2,12 @@ import React from "react";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
+import NewReservation from "../reservations/NewReservation";
+import NewTable from "../tables/NewTable";
+import SeatReservation from "../reservations/SeatReservation";
 import NotFound from "./NotFound";
-import ReservationsFormComponent from "../reservations/FormComponent";
-import Seat from "../reservations/Seat";
-import TablesFormComponent from "../tables/FormComponent";
-import Search from "../search/Search";
+import SearchReservation from "../search/SearchReservation";
+import EditReservation from "../reservations/EditReservation";
 
 /**
  * Defines all the routes for the application.
@@ -24,23 +25,26 @@ function Routes() {
       <Route exact={true} path="/reservations">
         <Redirect to={"/dashboard"} />
       </Route>
+      <Route exact={true} path="/reservations/new">
+        <NewReservation />
+      </Route>
+      <Route exact={true} path="/tables/new">
+        <NewTable />
+      </Route>
+      <Route path="/dashboard/:reservationDate">
+        <Dashboard />
+      </Route>
       <Route path="/dashboard">
-        <Dashboard/>
+        <Dashboard />
       </Route>
-      <Route path="/reservations/new">
-        <ReservationsFormComponent what={"new"} />
+      <Route exact={true} path="/reservations/:reservation_id/seat">
+        <SeatReservation />
       </Route>
-      <Route path="/reservations/:reservation_id/seat">
-        <Seat/>
+      <Route exact={true} path="/reservations/:reservation_id/edit">
+        <EditReservation />
       </Route>
-      <Route path="/reservations/:reservation_id/edit">
-        <ReservationsFormComponent what={"edit"} />
-      </Route>
-      <Route path="/tables/new">
-        <TablesFormComponent what={"new"} />
-      </Route>
-      <Route path="/search">
-        <Search />
+      <Route exact={true} path="/search">
+        <SearchReservation />
       </Route>
       <Route>
         <NotFound />
