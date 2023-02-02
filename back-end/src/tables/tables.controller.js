@@ -9,7 +9,7 @@ const hasRequiredProperties = hasProperties("table_name", "capacity");
 
 const VALID_PROPERTIES = ["table_name", "capacity"];
 
-async function hasOnlyValidProperties(req, res, next) {
+function hasOnlyValidProperties(req, res, next) {
   const { data = {} } = req.body;
 
   const invalidFields = Object.keys(data).filter(
@@ -25,7 +25,7 @@ async function hasOnlyValidProperties(req, res, next) {
   next();
 }
 
-async function hasData(req, res, next) {
+function hasData(req, res, next) {
   if (!req.body.data) {
     return next({
       status: 400,
@@ -35,7 +35,7 @@ async function hasData(req, res, next) {
   next();
 }
 
-async function hasResId(req, res, next) {
+function hasResId(req, res, next) {
   const resId = req.body.data.reservation_id;
   if (resId) {
     return next();
@@ -43,7 +43,7 @@ async function hasResId(req, res, next) {
   next({ status: 400, message: "reservation_id" });
 }
 
-async function hasCapacity(req, res, next) {
+function hasCapacity(req, res, next) {
   const capacity = Number(req.body.data.capacity);
   if (capacity > 0) {
     return next();
@@ -51,7 +51,7 @@ async function hasCapacity(req, res, next) {
     return next({ status: 400, message: "capacity must be at least 1 person" });
   }
 }
-async function capacityNumber(req, res, next) {
+function capacityNumber(req, res, next) {
   if (typeof req.body.data.capacity === "number") {
     return next();
   } else {
@@ -59,7 +59,7 @@ async function capacityNumber(req, res, next) {
   }
 }
 
-async function hasNameLength(req, res, next) {
+function hasNameLength(req, res, next) {
   const name = req.body.data.table_name;
   if (name.length > 1) {
     return next();
@@ -71,14 +71,14 @@ async function hasNameLength(req, res, next) {
   }
 }
 
-async function tableOccupied(req, res, next) {
+function tableOccupied(req, res, next) {
   if (res.locals.table.reservation_id) {
     return next();
   }
   return next({ status: 400, message: `Table is not occupied.` });
 }
 
-async function hasSufficientCapacity(req, res, next) {
+function hasSufficientCapacity(req, res, next) {
   const reservation = res.locals.reservation;
   const table = res.locals.table;
   if (reservation.people <= table.capacity) {
@@ -87,7 +87,7 @@ async function hasSufficientCapacity(req, res, next) {
   return next({ status: 400, message: `Table does not have enough capacity.` });
 }
 
-async function reservationAlreadySeated(req, res, next) {
+function reservationAlreadySeated(req, res, next) {
   const reservation = res.locals.reservation;
   if (reservation.status === "seated") {
     return next({ status: 400, message: `Reservation already seated.` });
@@ -95,7 +95,7 @@ async function reservationAlreadySeated(req, res, next) {
   return next();
 }
 
-async function reservationExists(req, res, next) {
+function reservationExists(req, res, next) {
   reservationsService
     .read(req.body.data.reservation_id)
     .then((reservation) => {
@@ -116,7 +116,7 @@ async function reservationExists(req, res, next) {
     });
 }
 
-async function tableResExists(req, res, next) {
+function tableResExists(req, res, next) {
   reservationsService
     .read(res.locals.table.reservation_id)
     .then((reservation) => {
@@ -137,7 +137,7 @@ async function tableResExists(req, res, next) {
     });
 }
 
-async function tableExists(req, res, next) {
+function tableExists(req, res, next) {
   tablesService
     .read(req.params.table_id)
     .then((table) => {

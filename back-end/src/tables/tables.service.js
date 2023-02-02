@@ -12,12 +12,12 @@ function read(table_id) {
 }
 
 async function list() {
-  return knex("tables").select("*").orderBy("table_name");
+  return await knex("tables").select("*").orderBy("table_name");
 }
 
 //put request to update a table AKA to seat a table:
 async function update(updatedTable) {
-  return knex("tables")
+  return await knex("tables")
     .select("*")
     .where({ table_id: updatedTable.table_id })
     .update(updatedTable, "*");
