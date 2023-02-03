@@ -159,7 +159,7 @@ function tableExists(req, res, next) {
     });
 }
 
-async function tableUnoccupied(req, res, next) {
+function tableUnoccupied(req, res, next) {
   if (res.locals.table.reservation_id) {
     return next({
       status: 400,

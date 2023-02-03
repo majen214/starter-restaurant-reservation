@@ -38,4 +38,4 @@ function TableForm({submitHandle, changeHandle, form, cancelLink}){
     )
 }
 
-export default TableForm
+export default TableForm;

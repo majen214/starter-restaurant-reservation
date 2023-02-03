@@ -204,7 +204,6 @@ async function list(req, res) {
     data: data.filter((reservation) => reservation.status !== "finished"),
   });
 }
-
 async function read(req, res) {
   res.json({
     data: await res.locals.reservation,
